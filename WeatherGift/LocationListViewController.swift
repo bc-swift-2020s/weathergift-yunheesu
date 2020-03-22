@@ -22,19 +22,23 @@ class LocationListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        var weatherLocation = WeatherLocation(name: "ChestnutHill, MA", latitude: 0, longitude: 0)
-//        weatherLocations.append(weatherLocation)
-//        weatherLocation = WeatherLocation(name: "Lilongwe, Malawi", latitude: 0, longitude: 0)
-//        weatherLocations.append(weatherLocation)
-//        weatherLocation = WeatherLocation(name: "Buenos Aires, Argentina", latitude: 0, longitude: 0)
-//        weatherLocations.append(weatherLocation)
-        
         tableView.dataSource = self
         tableView.delegate = self
         
     }
+    
+    func saveLocations() { //saving defaults with decoded at LocationDetailView
+        let encoder = JSONEncoder() // encoder = object & JSONEncoder = class
+        if let encoded = try? encoder.encode(weatherLocations){
+            UserDefaults.standard.set(encoded, forKey: "weatherLocations")
+        }else{
+            print("😡 ERROR: Saving encoded didn't work!")
+        }
+        
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         selectedLocationIndex = tableView.indexPathForSelectedRow!.row
+        saveLocations()
     }
     @IBAction func addBarButtonPressed(_ sender: UIBarButtonItem) {
         let autocompleteController = GMSAutocompleteViewController()

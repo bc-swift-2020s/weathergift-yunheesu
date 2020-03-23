@@ -37,6 +37,7 @@ class LocationDetailViewController: UIViewController {
         
         pageControl.numberOfPages = pageViewController.weatherLocations.count
         pageControl.currentPage = locationIndex
+        weatherLocation.getData()
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! LocationListViewController
@@ -51,7 +52,7 @@ class LocationDetailViewController: UIViewController {
         pageViewController.weatherLocations = source.weatherLocations
         pageViewController.setViewControllers([pageViewController.createLocationDetailViewController(forPage: locationIndex)], direction: .forward, animated: false, completion: nil)
     }
-    @IBAction func pageControlTapped(_ sender: UIPageControl) {
+    @IBAction func pageControlTapped(_ sender: UIPageControl) { // to move side to side by clicking the dots below
         let pageViewController = UIApplication.shared.windows.first!.rootViewController as! PageViewController
        
         var direction: UIPageViewController.NavigationDirection = .forward

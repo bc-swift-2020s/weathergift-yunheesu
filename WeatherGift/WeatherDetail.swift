@@ -16,7 +16,7 @@ private let dateFormatter: DateFormatter = {
     
 }()
 
-struct DailyWeatherData: Codable { // getting weather for each day for 7 days!
+struct DailyWeather: Codable { // getting weather for each day for 7 days!
     var dailyIcon: String
     var dailyWeekday: String
     var dailySummary: String
@@ -55,7 +55,7 @@ class WeatherDetail: WeatherLocation { //subclass
     var temperature = 0 // declaring as Int not Double
     var summary = ""
     var dailyIcon = "" // adding images to weather
-    var dailyWeatherData: [DailyWeatherData] = [] // starts with an empty array
+    var dailyWeatherData: [DailyWeather] = [] // starts with an empty array
     
     
 
@@ -98,7 +98,7 @@ class WeatherDetail: WeatherLocation { //subclass
                     let dailySummary = response.daily.data[index].summary
                     let dailyHigh = Int(response.daily.data[index].temperatureHigh.rounded())
                     let dailyLow = Int(response.daily.data[index].temperatureLow.rounded())
-                    let dailyWeather = DailyWeatherData(dailyIcon: dailyIcon, dailyWeekday: dailyWeekDay, dailySummary: dailySummary, dailyHigh: dailyHigh, dailyLow: dailyLow)
+                    let dailyWeather = DailyWeather(dailyIcon: dailyIcon, dailyWeekday: dailyWeekDay, dailySummary: dailySummary, dailyHigh: dailyHigh, dailyLow: dailyLow)
                     self.dailyWeatherData.append(dailyWeather)
                     print("Day: \(dailyWeather.dailyWeekday) High: \(dailyWeather.dailyHigh) Low: \(dailyWeather.dailyLow)")
                 }

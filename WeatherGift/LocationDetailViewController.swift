@@ -11,7 +11,7 @@ import UIKit
 private let dateFormatter: DateFormatter = {
     print("📆 I JUST CREATED A DATE FORMATTER")
     let dateFormatter = DateFormatter ()
-    dateFormatter.dateFormat = "EEEE, MMM, d, h:mm:aaa"
+    dateFormatter.dateFormat = "EEEE, MMM, d"
     return dateFormatter
     
 }() // () <- this executes closure
@@ -23,33 +23,48 @@ class LocationDetailViewController: UIViewController {
     @IBOutlet weak var summaryLabel: UILabel!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var pageControl: UIPageControl!
+    @IBOutlet weak var tableView: UITableView!
     
-    var locationIndex = 0 
+    var locationIndex = 0
+    var weatherDetail: WeatherDetail! // changing weatherDetail to class-wide property
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearUserInterface()
+        
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         updateUserInterface()
     }
     
+    func clearUserInterface() {
+        dateLabel.text = ""
+        placeLabel.text = ""
+        temperatureLabel.text = ""
+        summaryLabel.text = ""
+        imageView.image = UIImage()
+    }
     
     func updateUserInterface () {
         let pageViewController = UIApplication.shared.windows.first!.rootViewController as! PageViewController //finding rootViewController for 1st window that gives pageViewController
         let weatherLocation = pageViewController.weatherLocations[locationIndex]
-        let weatherDetail = WeatherDetail(name: weatherLocation.name, latitude: weatherLocation.latitude, longitude: weatherLocation.longitude)
+        weatherDetail = WeatherDetail(name: weatherLocation.name, latitude: weatherLocation.latitude, longitude: weatherLocation.longitude)
         
         pageControl.numberOfPages = pageViewController.weatherLocations.count
         pageControl.currentPage = locationIndex
         
         weatherDetail.getData {
             DispatchQueue.main.async {
-                dateFormatter.timeZone = TimeZone(identifier: weatherDetail.timezone)
-                let usableDate = Date(timeIntervalSince1970: weatherDetail.currentTime) // changing unixdata to ios data
+                dateFormatter.timeZone = TimeZone(identifier: self.weatherDetail.timezone)
+                let usableDate = Date(timeIntervalSince1970: self.weatherDetail.currentTime) // changing unixdata to ios data
                 self.dateLabel.text = dateFormatter.string(from: usableDate) //assigning dates to each timezone (시차)
-                self.placeLabel.text = weatherDetail.name
-                self.temperatureLabel.text = "\(weatherDetail.temperature)°" // string으로 바꾸는법
-                self.summaryLabel.text = weatherDetail.summary
-                self.imageView.image = UIImage(named: weatherDetail.dailyIcon) // adding images to weather
+                self.placeLabel.text = self.weatherDetail.name
+                self.temperatureLabel.text = "\(self.weatherDetail.temperature)°" // string으로 바꾸는법
+                self.summaryLabel.text = self.weatherDetail.summary
+                self.imageView.image = UIImage(named: self.weatherDetail.dailyIcon) // adding images to weather
+                self.tableView.reloadData()
             }
         } 
     }
@@ -76,5 +91,20 @@ class LocationDetailViewController: UIViewController {
             pageViewController.setViewControllers([pageViewController.createLocationDetailViewController(forPage: sender.currentPage)], direction: direction, animated: true, completion: nil)
         }
         
+    }
+}
+extension LocationDetailViewController: UITableViewDelegate, UITableViewDataSource { // including a tableviewCell
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return weatherDetail.dailyWeatherData.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! DailyTableViewCell // new custom TableViewCell for sepcific properties for new tableViewCell
+        cell.dailyWeather = weatherDetail.dailyWeatherData[indexPath.row] //kick of property observer, associate w/ dailyweather in dailytable view cell that will updatte IBoutlet
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80 // keep height constant
     }
 }

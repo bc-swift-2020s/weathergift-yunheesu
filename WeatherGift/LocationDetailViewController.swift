@@ -44,7 +44,7 @@ class LocationDetailViewController: UIViewController {
         weatherDetail.getData {
             DispatchQueue.main.async {
                 dateFormatter.timeZone = TimeZone(identifier: weatherDetail.timezone)
-                let usableDate = Date(timeIntervalSince1970: weatherDetail.currentTime)
+                let usableDate = Date(timeIntervalSince1970: weatherDetail.currentTime) // changing unixdata to ios data
                 self.dateLabel.text = dateFormatter.string(from: usableDate) //assigning dates to each timezone (시차)
                 self.placeLabel.text = weatherDetail.name
                 self.temperatureLabel.text = "\(weatherDetail.temperature)°" // string으로 바꾸는법

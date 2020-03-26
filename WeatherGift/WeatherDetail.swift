@@ -10,7 +10,7 @@ import Foundation
 
 class WeatherDetail: WeatherLocation { //subclass
     
-    struct Result: Codable {
+    struct Response: Codable {
         var timezone: String
         var currently: Currently
         var daily: Daily
@@ -18,6 +18,7 @@ class WeatherDetail: WeatherLocation { //subclass
     }
     struct Currently: Codable {
         var temperature: Double
+        var time: TimeInterval
     }
     struct Daily: Codable {
         var summary: String
@@ -25,9 +26,11 @@ class WeatherDetail: WeatherLocation { //subclass
     }
     
     var timezone = ""
+        var currentTime = 0.0
     var temperature = 0 // declaring as Int not Double
     var summary = ""
     var dailyIcon = "" // adding images to weather
+
         
     func getData(completed: @escaping () -> ()) { //escaping closure to get data until you've gotten the data
         let coordinates = "\(latitude),\(longitude)"
@@ -53,13 +56,12 @@ class WeatherDetail: WeatherLocation { //subclass
             
             //deal with data
             do {
-                let result = try JSONDecoder().decode(Result.self, from: data!)
-//                print("😎 \(result)")
-//                print("The timezone for \(self.name) is : \(result.timezone)")
-                self.timezone = result.timezone
-                self.temperature = Int(result.currently.temperature.rounded()) // declating tempt as Int
-                self.summary = result.daily.summary
-                self.dailyIcon = result.daily.icon
+                let response = try JSONDecoder().decode(Response.self, from: data!)
+                self.timezone = response.timezone
+                self.currentTime = response.currently.time
+                self.temperature = Int(response.currently.temperature.rounded()) // declating tempt as Int
+                self.summary = response.daily.summary
+                self.dailyIcon = response.daily.icon
             }catch{
                 print("😡 JSON ERROR: \(error.localizedDescription)")
             }

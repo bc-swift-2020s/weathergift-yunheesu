@@ -8,6 +8,14 @@
 
 import UIKit
 
+private let dateFormatter: DateFormatter = {
+    print("📆 I JUST CREATED A DATE FORMATTER")
+    let dateFormatter = DateFormatter ()
+    dateFormatter.dateFormat = "EEEE, MMM, d, h:mm:aaa"
+    return dateFormatter
+    
+}() // () <- this executes closure
+
 class LocationDetailViewController: UIViewController {
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var placeLabel: UILabel!
@@ -32,9 +40,12 @@ class LocationDetailViewController: UIViewController {
         
         pageControl.numberOfPages = pageViewController.weatherLocations.count
         pageControl.currentPage = locationIndex
+        
         weatherDetail.getData {
             DispatchQueue.main.async {
-                self.dateLabel.text = weatherDetail.timezone
+                dateFormatter.timeZone = TimeZone(identifier: weatherDetail.timezone)
+                let usableDate = Date(timeIntervalSince1970: weatherDetail.currentTime)
+                self.dateLabel.text = dateFormatter.string(from: usableDate) //assigning dates to each timezone (시차)
                 self.placeLabel.text = weatherDetail.name
                 self.temperatureLabel.text = "\(weatherDetail.temperature)°" // string으로 바꾸는법
                 self.summaryLabel.text = weatherDetail.summary

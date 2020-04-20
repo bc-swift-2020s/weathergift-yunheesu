@@ -30,7 +30,11 @@
                                     <constraint firstAttribute="height" constant="44" id="thG-3X-dze"/>
                                 </constraints>
                                 <items>
-                                    <barButtonItem title="About" id="rI2-Fg-G9a"/>
+                                    <barButtonItem title="About" id="rI2-Fg-G9a">
+                                        <connections>
+                                            <segue destination="rLH-q1-GeJ" kind="presentation" id="3G8-Kj-8C7"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="lm1-4S-Gjo"/>
                                     <barButtonItem style="plain" id="FFK-EO-pzy">
                                         <pageControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" numberOfPages="3" id="vAV-bS-oaK">
@@ -46,7 +50,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="4en-xJ-t9q"/>
                                     <barButtonItem image="list.bullet" catalog="system" id="bqq-EU-WEM">
                                         <connections>
-                                            <segue destination="BYZ-38-t0r" kind="presentation" modalPresentationStyle="fullScreen" id="oTs-UL-fBY"/>
+                                            <segue destination="BYZ-38-t0r" kind="presentation" identifier="ShowList" modalPresentationStyle="fullScreen" id="oTs-UL-fBY"/>
                                         </connections>
                                     </barButtonItem>
                                 </items>
@@ -323,10 +327,83 @@
             </objects>
             <point key="canvasLocation" x="138.75" y="126.7605633802817"/>
         </scene>
+        <!--About View Controller-->
+        <scene sceneID="4dE-BW-LRv">
+            <objects>
+                <viewController id="rLH-q1-GeJ" customClass="AboutViewController" customModule="WeatherGift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ls4-Of-Gmn">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="siy-tR-xny">
+                                <rect key="frame" x="0.0" y="504" width="320" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="44" id="zkr-94-Hrp"/>
+                                </constraints>
+                                <items>
+                                    <barButtonItem title="Done" id="d2b-B1-bRq">
+                                        <connections>
+                                            <action selector="doneButtonPressed:" destination="rLH-q1-GeJ" id="AeP-Te-dik"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xl1-gE-7hV">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="WeatherGift" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mbP-2r-JKW">
+                                        <rect key="frame" x="26" y="8" width="268" height="88"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="64"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="rain" translatesAutoresizingMaskIntoConstraints="NO" id="zJY-5g-2T0">
+                                        <rect key="frame" x="8" y="104" width="304" height="220"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="powered_by_darksky" translatesAutoresizingMaskIntoConstraints="NO" id="bUw-9f-suO">
+                                        <rect key="frame" x="8" y="361" width="148" height="121"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="By Heesu Yun!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LjS-FS-uxU">
+                                        <rect key="frame" x="16" y="332" width="296" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                        <fontDescription key="fontDescription" name="AvenirNextCondensed-Regular" family="Avenir Next Condensed" pointSize="24"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="powered_by_google_on_white" translatesAutoresizingMaskIntoConstraints="NO" id="Ea9-pK-Lp6">
+                                        <rect key="frame" x="164" y="375" width="148" height="121"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                                    </imageView>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="siy-tR-xny" firstAttribute="top" secondItem="xl1-gE-7hV" secondAttribute="bottom" id="EYb-qq-w5V"/>
+                            <constraint firstItem="xl1-gE-7hV" firstAttribute="top" secondItem="ge7-op-HRG" secondAttribute="top" id="ImZ-bG-sbO"/>
+                            <constraint firstItem="ge7-op-HRG" firstAttribute="trailing" secondItem="xl1-gE-7hV" secondAttribute="trailing" id="Rpv-da-1Bh"/>
+                            <constraint firstItem="xl1-gE-7hV" firstAttribute="leading" secondItem="ge7-op-HRG" secondAttribute="leading" id="WqB-IZ-jcZ"/>
+                            <constraint firstItem="siy-tR-xny" firstAttribute="leading" secondItem="ge7-op-HRG" secondAttribute="leading" id="pMP-9e-x7k"/>
+                            <constraint firstItem="siy-tR-xny" firstAttribute="bottom" secondItem="ge7-op-HRG" secondAttribute="bottom" id="uTU-Ys-ydv"/>
+                            <constraint firstItem="siy-tR-xny" firstAttribute="trailing" secondItem="ge7-op-HRG" secondAttribute="trailing" id="vt5-rO-kYQ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ge7-op-HRG"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aR5-P9-wXL" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-660" y="1011"/>
+        </scene>
     </scenes>
     <resources>
         <image name="cloud" catalog="system" width="128" height="87"/>
         <image name="list.bullet" catalog="system" width="128" height="88"/>
+        <image name="powered_by_darksky" width="356" height="142"/>
+        <image name="powered_by_google_on_white" width="144" height="18"/>
         <image name="rain" width="512" height="512"/>
         <image name="raindrop" width="34" height="50"/>
     </resources>
